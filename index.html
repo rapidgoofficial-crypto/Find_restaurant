@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasa Paara - රස පාර | Premium Restaurant Discovery</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Noto+Sans+Sinhala:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-orange-900 text-white">
+    <!-- Navigation Bar -->
+    <nav class="glass-nav fixed w-full top-0 z-50 backdrop-blur-xl bg-opacity-10 border-b border-white border-opacity-10">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="logo-container">
+                <h1 class="text-2xl md:text-3xl font-black text-white">රස පාර</h1>
+                <p class="text-xs text-orange-300">Restaurant Discovery</p>
+            </div>
+            
+            <div class="nav-links hidden md:flex gap-8 items-center">
+                <a href="#" onclick="showSection('home')" class="nav-link active text-sm font-semibold hover:text-orange-400 transition">Home</a>
+                <a href="#" onclick="showSection('top10')" class="nav-link text-sm font-semibold hover:text-orange-400 transition">Top 10</a>
+                <a href="#" onclick="showSection('offers')" class="nav-link text-sm font-semibold hover:text-orange-400 transition">Offers</a>
+                <a href="#" onclick="toggleSubmitModal()" class="nav-link text-sm font-semibold hover:text-orange-400 transition">+ Add</a>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleAuthModal()" class="login-btn px-4 py-2 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold text-white text-sm transition" id="authBtn">
+                    <i class="fas fa-user mr-2"></i>Login
+                </button>
+                <button class="md:hidden text-white text-2xl" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-800 bg-opacity-95 backdrop-blur border-t border-white border-opacity-10">
+            <a href="#" onclick="showSection('home'); toggleMobileMenu()" class="block px-4 py-3 hover:bg-orange-500 hover:bg-opacity-20 transition text-sm">Home</a>
+            <a href="#" onclick="showSection('top10'); toggleMobileMenu()" class="block px-4 py-3 hover:bg-orange-500 hover:bg-opacity-20 transition text-sm">Top 10</a>
+            <a href="#" onclick="showSection('offers'); toggleMobileMenu()" class="block px-4 py-3 hover:bg-orange-500 hover:bg-opacity-20 transition text-sm">Offers</a>
+            <a href="#" onclick="toggleSubmitModal(); toggleMobileMenu()" class="block px-4 py-3 hover:bg-orange-500 hover:bg-opacity-20 transition text-sm">+ Add Restaurant</a>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="pt-24 pb-12">
+        <!-- Hero Section -->
+        <div class="px-4 py-12 text-center max-w-6xl mx-auto">
+            <!-- Hero Food Image with Overlaid Heading -->
+            <div class="hero-image-container relative mb-8 rounded-2xl overflow-hidden shadow-2xl max-w-4xl mx-auto" style="min-height: 400px;">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&h=400&fit=crop" alt="Food Hero" class="w-full object-cover h-80 absolute inset-0">
+                <!-- Overlay with Heading -->
+                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40" style="z-index: 5;">
+                    <h1 class="text-4xl md:text-6xl font-black text-white text-center px-4" style="font-family: 'Montserrat', 'Noto Sans Sinhala', sans-serif; letter-spacing: -0.02em; text-shadow: 0 6px 25px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.8); z-index: 10;">අද කොහෙන්ද කන්නේ?</h1>
+                </div>
+            </div>
+            
+            <!-- Category Buttons -->
+            <div class="flex flex-wrap gap-4 justify-center mb-8">
+                <button onclick="filterByMealType('Breakfast')" class="px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-300 text-slate-900 font-bold rounded-xl hover:shadow-xl transform hover:scale-105 transition text-sm md:text-base">
+                    <i class="fas fa-sunrise mr-2"></i>Breakfast සඳහා
+                </button>
+                <button onclick="filterByMealType('Lunch')" class="px-8 py-4 bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold rounded-xl hover:shadow-xl transform hover:scale-105 transition text-sm md:text-base">
+                    <i class="fas fa-sun mr-2"></i>Lunch සඳහා
+                </button>
+                <button onclick="filterByMealType('Dinner')" class="px-8 py-4 bg-gradient-to-r from-red-500 to-orange-600 text-white font-bold rounded-xl hover:shadow-xl transform hover:scale-105 transition text-sm md:text-base">
+                    <i class="fas fa-moon mr-2"></i>Dinner සඳහා
+                </button>
+            </div>
+            
+            <!-- Search & Filter -->
+            <div class="bg-white bg-opacity-10 backdrop-blur-xl rounded-2xl p-6 max-w-5xl mx-auto border border-white border-opacity-20">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <!-- Restaurant Name Search -->
+                    <div class="relative md:col-span-2">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-gray-300 z-10"></i>
+                        <input type="text" id="searchInput" placeholder="Search restaurants..." class="w-full pl-10 pr-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-20 focus:border-orange-400 focus:outline-none transition" oninput="handleRestaurantSearch()" autocomplete="off">
+                        <div id="restaurantSuggestions" class="search-suggestions hidden absolute top-12 left-0 right-0 z-50"></div>
+                    </div>
+                    
+                    <!-- Location Search (Text Input with Suggestions) -->
+                    <div class="relative">
+                        <i class="fas fa-map-marker-alt absolute left-4 top-3.5 text-gray-300 z-10"></i>
+                        <input type="text" id="locationInput" placeholder="City..." class="w-full pl-10 pr-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-20 focus:border-orange-400 focus:outline-none transition" oninput="handleLocationInput()" autocomplete="off">
+                        <div id="locationSuggestions" class="search-suggestions hidden absolute top-12 left-0 right-0 z-50"></div>
+                    </div>
+                    
+                    <!-- Meal Type Filter -->
+                    <select id="mealTypeFilter" class="px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:border-orange-400 focus:outline-none transition cursor-pointer" onchange="handleSearch()">
+                        <option class="bg-slate-800 text-white" value="">All Meals</option>
+                        <option class="bg-slate-800 text-white" value="Breakfast">Breakfast</option>
+                        <option class="bg-slate-800 text-white" value="Lunch">Lunch</option>
+                        <option class="bg-slate-800 text-white" value="Dinner">Dinner</option>
+                    </select>
+                </div>
+                
+                <!-- Search and Near Me Buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <button onclick="handleSearch()" class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                    <button onclick="getNearbyRestaurants()" class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition flex items-center justify-center">
+                        <i class="fas fa-location-dot mr-2"></i>Near Me
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Restaurant Grid -->
+        <div class="px-4 py-12 max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-8">All Restaurants</h2>
+            <div id="restaurantGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Cards will be inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Top 10 Section -->
+    <section id="top10" class="hidden pt-24 pb-12">
+        <div class="px-4 py-12 max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-2">⭐ Top 10 Restaurants</h2>
+            <p class="text-gray-300 mb-8">Ranked by average rating and review count</p>
+            <div id="top10Grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Top 10 cards will be inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Offers Section -->
+    <section id="offers" class="hidden pt-24 pb-12">
+        <div class="px-4 py-12 max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-8">Special Offers</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white bg-opacity-10 backdrop-blur-xl rounded-2xl p-6 border border-white border-opacity-20 hover:border-orange-400 transition text-center">
+                    <i class="fas fa-percent text-5xl text-orange-400 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">20% Off</h3>
+                    <p class="text-gray-300 mb-4">On seafood restaurants this week!</p>
+                    <button class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition">Claim Offer</button>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-xl rounded-2xl p-6 border border-white border-opacity-20 hover:border-orange-400 transition text-center">
+                    <i class="fas fa-gift text-5xl text-orange-400 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">Free Dessert</h3>
+                    <p class="text-gray-300 mb-4">With any main course</p>
+                    <button class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition">Claim Offer</button>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-xl rounded-2xl p-6 border border-white border-opacity-20 hover:border-orange-400 transition text-center">
+                    <i class="fas fa-star text-5xl text-orange-400 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">Loyalty Rewards</h3>
+                    <p class="text-gray-300 mb-4">Earn points on reviews</p>
+                    <button class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-800 bg-opacity-95 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full border border-white border-opacity-10 my-8 relative">
+            <button onclick="toggleAuthModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2 class="text-3xl font-black text-white mb-6 pr-8">Welcome to Rasa Paara</h2>
+            
+            <button onclick="googleSignIn()" class="w-full px-4 py-3 bg-white text-slate-900 font-bold rounded-lg hover:bg-gray-100 transition mb-4">
+                <i class="fab fa-google mr-2"></i>Sign in with Google
+            </button>
+            
+            <div class="text-center text-gray-400 mb-4">OR</div>
+            
+            <form id="authForm" onsubmit="handleAuth(event)" class="space-y-4">
+                <div>
+                    <label class="block text-white text-sm font-bold mb-2">Username</label>
+                    <input type="text" id="authUsername" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                </div>
+                <div>
+                    <label class="block text-white text-sm font-bold mb-2">Email</label>
+                    <input type="email" id="authEmail" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                </div>
+                <div>
+                    <label class="block text-white text-sm font-bold mb-2">Mobile Number</label>
+                    <input type="tel" id="authMobile" placeholder="0712345678" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                </div>
+                <button type="submit" class="w-full px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition">
+                    Sign In / Sign Up
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Submit Restaurant Modal -->
+    <div id="submitModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-800 bg-opacity-95 backdrop-blur-xl rounded-2xl p-8 max-w-2xl w-full border border-white border-opacity-10 my-8 relative">
+            <button onclick="toggleSubmitModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2 class="text-3xl font-black text-white mb-6 pr-8">Add New Restaurant</h2>
+            
+            <form id="submitForm" onsubmit="handleSubmitRestaurant(event)" class="space-y-4 max-h-96 overflow-y-auto pr-4">
+                <div>
+                    <label class="block text-white text-sm font-bold mb-2">Restaurant Name</label>
+                    <div class="relative">
+                        <input type="text" id="submitName" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:outline-none focus:border-orange-400" oninput="checkRestaurantSuggestions(this.value)" autocomplete="off">
+                        <div id="submitSuggestions" class="search-suggestions hidden absolute top-12 left-0 right-0 z-30"></div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-bold mb-2">Opening Time</label>
+                        <input type="time" id="submitOpenTime" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-bold mb-2">Closing Time</label>
+                        <input type="time" id="submitCloseTime" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white text-sm font-bold mb-2">Location</label>
+                        <select id="submitLocation" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                            <option class="bg-slate-800" value="">Select Location</option>
+                            <option class="bg-slate-800" value="Colombo">Colombo</option>
+                            <option class="bg-slate-800" value="Kandy">Kandy</option>
+                            <option class="bg-slate-800" value="Galle">Galle</option>
+                            <option class="bg-slate-800" value="Jaffna">Jaffna</option>
+                            <option class="bg-slate-800" value="Negombo">Negombo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-white text-sm font-bold mb-2">Best For</label>
+                        <select id="submitBestFor" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                            <option class="bg-slate-800" value="">Select Meal Type</option>
+                            <option class="bg-slate-800" value="Breakfast">Breakfast</option>
+                            <option class="bg-slate-800" value="Lunch">Lunch</option>
+                            <option class="bg-slate-800" value="Dinner">Dinner</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-bold mb-2">Restaurant Image URL</label>
+                    <input type="url" id="submitImage" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-bold mb-2">Google Maps Link</label>
+                    <input type="url" id="submitMaps" required class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:outline-none focus:border-orange-400">
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-bold mb-2">Description</label>
+                    <textarea id="submitDesc" required rows="3" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-20 focus:outline-none focus:border-orange-400"></textarea>
+                </div>
+                
+                <button type="submit" class="w-full px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition mt-6">
+                    <i class="fas fa-plus mr-2"></i>Add Restaurant
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Restaurant Detail Modal -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-800 bg-opacity-95 backdrop-blur-xl rounded-2xl max-w-2xl w-full border border-white border-opacity-10 my-8 relative" id="detailContent">
+            <!-- Close Button (Floating) -->
+            <button onclick="closeDetailModal()" class="absolute top-6 right-6 w-10 h-10 bg-orange-500 hover:bg-orange-600 text-white rounded-full flex items-center justify-center text-xl z-10 transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <!-- Inserted dynamically -->
+        </div>
+    </div>
+
+    <style>
+        .search-suggestions {
+            margin-top: 0.5rem;
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 1rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 87, 34, 0.1);
+            max-height: 380px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 9999;
+            animation: slideDown 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: absolute;
+            width: 100%;
+        }
+        .search-suggestions.hidden { display: none !important; }
+        .suggestion-item {
+            padding: 1rem 1.25rem;
+            color: rgba(255, 255, 255, 0.95);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        .suggestion-item:hover {
+            background: rgba(255, 87, 34, 0.25);
+            border-left-color: #FF5722;
+            padding-left: 1.75rem;
+            font-weight: 600;
+            color: white;
+        }
+        .suggestion-item i { 
+            color: #FF5722; 
+            font-size: 1rem; 
+            width: 1.25rem; 
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .suggestion-item div {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .suggestion-item strong {
+            display: block;
+            color: white;
+            font-weight: 700;
+        }
+        .suggestion-item small {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+        @keyframes slideDown {
+            from { 
+                opacity: 0; 
+                transform: translateY(-12px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        /* Scrollbar styling for suggestions */
+        .search-suggestions::-webkit-scrollbar {
+            width: 6px;
+        }
+        .search-suggestions::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .search-suggestions::-webkit-scrollbar-thumb {
+            background: rgba(255, 87, 34, 0.3);
+            border-radius: 10px;
+        }
+        .search-suggestions::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 87, 34, 0.5);
+        }
+    </style>
+
+    <script src="script.js"></script>
+</body>
+</html>
